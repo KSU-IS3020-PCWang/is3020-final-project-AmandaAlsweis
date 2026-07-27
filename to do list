@@ -7,10 +7,11 @@ def load_tasks():
             for line in files:
                 line = line.strip()
                 if line:
-                    name, completed = line.slipt("|")
+                    name, completed, priority = line.slipt("|")
                     tasks.append({
                       "name": name,
                       "completed": completed == "True"
+                      "priority": priority
                     })
     except FileNotFoundError:
         print("No saved task file found. Starting with an empty list.")
@@ -18,7 +19,7 @@ def load_tasks():
 def save_tasks(tasks):
     with open(FileName, "w") as file:
         for task in tasks:
-            file.write(f"{task['name']}|{task['completed']}\n")
+            file.write(f"{task['name']}|{task['completed']}|{task['priority']}\n")
     print("Task saved successfully.\n")
 
 def view_tasks(tasks):
@@ -31,14 +32,17 @@ def view_tasks(tasks):
         status = "Completed"
     else:
         status = "Not Completed"
-    print(f"{i}. {task['name']} - {status}")
+    print(f"{i}. {task['name']} | {status} | Priority: {task['priority']}")
   print()
 
 def add_task(tasks):
   name = input("Enter a new task: ")
+  priority = input("Enter priority (High, Medium, Low): ")
+
   tasks.append({
     "name": name,
-    "completed": False
+    "completed": False,
+    "priority": priority
   })
   print("Task added successfully.\n")
 
